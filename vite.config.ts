@@ -47,19 +47,10 @@ export default defineConfig({
                   chunk.type === "chunk" &&
                   (key.endsWith(".mjs") || key.endsWith(".cjs"))
                 ) {
-                  // Prepend CSS injection code that runs immediately when module loads
-                  const cssInjection = `(function() {
-  if (typeof document !== 'undefined') {
-    var style = document.getElementById('faq-chatbot-styles');
-    if (!style) {
-      style = document.createElement('style');
-      style.id = 'faq-chatbot-styles';
-      style.textContent = ${JSON.stringify(cssContent)};
-      document.head.appendChild(style);
-    }
-  }
-})();
-`;
+                  // Prepend minified CSS injection code
+                  const cssInjection = `(function(){if(typeof document!=='undefined'){var s=document.getElementById('faq-chatbot-styles');if(!s){s=document.createElement('style');s.id='faq-chatbot-styles';s.textContent=${JSON.stringify(
+                    cssContent
+                  )};document.head.appendChild(s)}}})();`;
                   chunk.code = cssInjection + chunk.code;
                 }
               });
@@ -69,6 +60,11 @@ export default defineConfig({
       ],
     },
     cssCodeSplit: false,
-    sourcemap: true,
+    cssMinify: true,
+    minify: "esbuild", // esbuild is fast and produces good minification
+    sourcemap: false, // Disable sourcemaps to reduce size (enable only for debugging)
+    target: "es2015", // Target modern browsers for smaller output
+    // Optimize chunk size
+    chunkSizeWarningLimit: 1000,
   },
 });
