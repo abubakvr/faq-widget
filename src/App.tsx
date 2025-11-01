@@ -1,4 +1,4 @@
-import { Widget } from "./components/Widget";
+import { Widget } from "faq-chatbot";
 
 function App() {
   return (
@@ -24,7 +24,7 @@ function App() {
 
       {/* Widget with customizations */}
       <Widget
-        baseUrl=""
+        baseUrl={import.meta.env.VITE_API_BASE_URL || "http://localhost:8080"}
         welcomeMessage="Welcome! I'm here to help answer your questions. What would you like to know?"
         primaryColor="#3B82F6"
         secondaryColor="#2563EB"

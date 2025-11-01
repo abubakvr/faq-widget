@@ -1,4 +1,4 @@
-// Import CSS so it gets bundled
+// Import CSS so it gets bundled by Vite
 import "./index.css";
 
 // Export the main widget component

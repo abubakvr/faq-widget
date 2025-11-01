@@ -26,6 +26,47 @@ export default defineConfig({
         exports: "named",
         assetFileNames: "style.css",
       },
+      plugins: [
+        {
+          name: "auto-inject-css",
+          generateBundle(options, bundle) {
+            // After CSS is generated, read it and inject into JS bundle
+            const cssFileName = Object.keys(bundle).find((f) =>
+              f.endsWith(".css")
+            );
+            if (cssFileName && bundle[cssFileName].type === "asset") {
+              const cssContent =
+                typeof bundle[cssFileName].source === "string"
+                  ? bundle[cssFileName].source
+                  : bundle[cssFileName].source.toString();
+
+              // Find the JS entry files and inject CSS loading code
+              Object.keys(bundle).forEach((key) => {
+                const chunk = bundle[key];
+                if (
+                  chunk.type === "chunk" &&
+                  (key.endsWith(".mjs") || key.endsWith(".cjs"))
+                ) {
+                  // Prepend CSS injection code that runs immediately when module loads
+                  const cssInjection = `(function() {
+  if (typeof document !== 'undefined') {
+    var style = document.getElementById('faq-chatbot-styles');
+    if (!style) {
+      style = document.createElement('style');
+      style.id = 'faq-chatbot-styles';
+      style.textContent = ${JSON.stringify(cssContent)};
+      document.head.appendChild(style);
+    }
+  }
+})();
+`;
+                  chunk.code = cssInjection + chunk.code;
+                }
+              });
+            }
+          },
+        },
+      ],
     },
     cssCodeSplit: false,
     sourcemap: true,

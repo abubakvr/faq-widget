@@ -1,4 +1,3 @@
-import React from "react";
 import { useTypewriter } from "../hooks/useTypewriter";
 import type { ChatMessage } from "../types/chat";
 

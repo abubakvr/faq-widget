@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect } from "react";
 import { ChatAPIClient } from "../utils/api";
 import type { ChatWidgetConfig, ChatMessage } from "../types/chat";
 import type { ApiResponse, AskQuestionResponse } from "../types/api";
