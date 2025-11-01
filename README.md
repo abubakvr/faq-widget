@@ -1,23 +1,23 @@
-# Fag Agent SDK (Chat Widget)
+# Faq Agent SDK (Chat Widget)
 
 A React SDK widget component for integrating an AI chatbot into any React application.
 
 ## Installation
 
 ```bash
-npm install fag-agent-sdk
+npm install faq-agent-sdk
 ```
 
 or
 
 ```bash
-yarn add fag-agent-sdk
+yarn add faq-agent-sdk
 ```
 
 or
 
 ```bash
-pnpm add fag-agent-sdk
+pnpm add faq-agent-sdk
 ```
 
 ## Usage
@@ -25,8 +25,8 @@ pnpm add fag-agent-sdk
 ### Basic Example
 
 ```tsx
-import { Widget } from "fag-agent-sdk";
-import "fag-agent-sdk/style.css";
+import { Widget } from "faq-agent-sdk";
+import "faq-agent-sdk/style.css";
 
 function App() {
   return (
@@ -40,8 +40,8 @@ function App() {
 ### With Custom Configuration
 
 ```tsx
-import { Widget } from "fag-agent-sdk";
-import "fag-agent-sdk/style.css";
+import { Widget } from "faq-agent-sdk";
+import "faq-agent-sdk/style.css";
 
 function App() {
   return (
@@ -64,8 +64,8 @@ function App() {
 The widget appears as a floating button in the bottom right corner and opens as a modal:
 
 ```tsx
-import { Widget } from "fag-agent-sdk";
-import "fag-agent-sdk/style.css";
+import { Widget } from "faq-agent-sdk";
+import "faq-agent-sdk/style.css";
 
 function App() {
   return (
@@ -123,7 +123,7 @@ function App() {
 For advanced use cases, you can use the API client directly:
 
 ```tsx
-import { ChatAPIClient } from "fag-agent-sdk";
+import { ChatAPIClient } from "faq-agent-sdk";
 
 const client = new ChatAPIClient("http://localhost:8080");
 
@@ -168,7 +168,7 @@ import type {
   ChatMessage,
   ApiResponse,
   AskQuestionResponse,
-} from "fag-agent-sdk";
+} from "faq-agent-sdk";
 
 // Use types in your custom components
 ```
@@ -248,7 +248,7 @@ Before publishing to npm:
 The widget uses Tailwind CSS for styling. The styles are bundled in `style.css` and must be imported:
 
 ```tsx
-import "fag-agent-sdk/style.css";
+import "faq-agent-sdk/style.css";
 ```
 
 You can override styles using the `className` prop or by targeting CSS classes:
