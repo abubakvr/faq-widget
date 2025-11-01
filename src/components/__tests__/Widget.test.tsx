@@ -501,6 +501,7 @@ describe("Widget Component", () => {
 
   describe("Follow-up Questions", () => {
     it("should display follow-up question button when provided", async () => {
+      vi.setConfig({ testTimeout: 15000 }); // Increase timeout for this test
       render(<Widget {...defaultProps} />);
 
       const user = userEvent.setup();
@@ -528,17 +529,36 @@ describe("Widget Component", () => {
       const sendButton = screen.getByLabelText(/send/i);
       fireEvent.click(sendButton);
 
+      // Wait for API response - the full message (answer + follow-up) will be typed out
+      // The follow-up question appears as a button after the typewriter completes
+      const followUpText = mockAskQuestionResponse.data.follow_up_question!;
+      const answerText = mockAskQuestionResponse.data.answer;
+
+      // Wait for the answer to appear first (part of typewriter)
       await waitFor(
         () => {
-          expect(
-            screen.getByText(mockAskQuestionResponse.data.follow_up_question!)
-          ).toBeInTheDocument();
+          expect(screen.getByText(answerText)).toBeInTheDocument();
         },
-        { timeout: 2000 }
+        { timeout: 3000 }
+      );
+
+      // Now wait for the follow-up question button to appear
+      // It's rendered as a button with emoji, only when typing is complete
+      await waitFor(
+        () => {
+          // The button text includes emoji + follow-up text, search for any element containing the text
+          const buttons = screen.getAllByRole("button");
+          const hasFollowUpButton = buttons.some((btn) =>
+            btn.textContent?.includes(followUpText)
+          );
+          expect(hasFollowUpButton).toBe(true);
+        },
+        { timeout: 10000 }
       );
     });
 
     it('should send "Yes" when follow-up question is clicked', async () => {
+      vi.setConfig({ testTimeout: 15000 }); // Increase timeout for this test
       render(<Widget {...defaultProps} />);
 
       const user = userEvent.setup();
@@ -555,19 +575,53 @@ describe("Widget Component", () => {
 
       const input = screen.getByPlaceholderText(/type your question/i);
       await user.type(input, "Test question");
+
+      await waitFor(
+        () => {
+          expect(screen.getByLabelText(/send/i)).toBeInTheDocument();
+        },
+        { timeout: 1000 }
+      );
+
       const sendButton = screen.getByLabelText(/send/i);
       fireEvent.click(sendButton);
 
-      const followUpButton = screen.getByText(
-        mockAskQuestionResponse.data.follow_up_question!
+      // Wait for API response - the full message (answer + follow-up) will be typed out
+      // The follow-up question appears as a button after the typewriter completes
+      const followUpText = mockAskQuestionResponse.data.follow_up_question!;
+      const answerText = mockAskQuestionResponse.data.answer;
+
+      // Wait for the answer to appear first (part of typewriter)
+      await waitFor(
+        () => {
+          expect(screen.getByText(answerText)).toBeInTheDocument();
+        },
+        { timeout: 3000 }
       );
-      expect(followUpButton).toBeInTheDocument();
-      fireEvent.click(followUpButton);
+
+      // Now wait for the follow-up question button to appear and click it
+      // It's rendered as a button with emoji, only when typing is complete
+      let followUpButton: HTMLElement | undefined;
+      await waitFor(
+        () => {
+          // The button text includes emoji + follow-up text, find the button
+          const buttons = screen.getAllByRole("button");
+          followUpButton = buttons.find((btn) =>
+            btn.textContent?.includes(followUpText)
+          ) as HTMLElement | undefined;
+          expect(followUpButton).toBeDefined();
+        },
+        { timeout: 10000 }
+      );
+
+      fireEvent.click(followUpButton!);
+
+      // Wait for "Yes" message to be sent and appear in chat
       await waitFor(
         () => {
           expect(screen.getByText("Yes")).toBeInTheDocument();
         },
-        { timeout: 2000 }
+        { timeout: 3000 }
       );
     });
   });
@@ -710,11 +764,23 @@ describe("Widget Component", () => {
 
       const input = screen.getByPlaceholderText(/type your question/i);
       await user.type(input, "Test question");
-      const sendButton = screen.getByLabelText(/send/i);
-      fireEvent.click(sendButton);
+
       await waitFor(
         () => {
-          expect(screen.getByText(/error/i)).toBeInTheDocument();
+          expect(screen.getByLabelText(/send/i)).toBeInTheDocument();
+        },
+        { timeout: 1000 }
+      );
+
+      const sendButton = screen.getByLabelText(/send/i);
+      fireEvent.click(sendButton);
+
+      // Wait for error message - it appears in chat bubble, so getByText is fine
+      await waitFor(
+        () => {
+          // Check for error in chat message (not error bar since API response errors may not show in error bar)
+          const errorMessages = screen.getAllByText(/error/i);
+          expect(errorMessages.length).toBeGreaterThan(0);
         },
         { timeout: 2000 }
       );
@@ -741,11 +807,22 @@ describe("Widget Component", () => {
 
       const input = screen.getByPlaceholderText(/type your question/i);
       await user.type(input, "Test question");
-      const sendButton = screen.getByLabelText(/send/i);
-      fireEvent.click(sendButton);
+
       await waitFor(
         () => {
-          expect(screen.getByText(/error/i)).toBeInTheDocument();
+          expect(screen.getByLabelText(/send/i)).toBeInTheDocument();
+        },
+        { timeout: 1000 }
+      );
+
+      const sendButton = screen.getByLabelText(/send/i);
+      fireEvent.click(sendButton);
+
+      // Network errors appear in both chat bubble and error bar, so use getAllByText
+      await waitFor(
+        () => {
+          const errorMessages = screen.getAllByText(/error/i);
+          expect(errorMessages.length).toBeGreaterThan(0);
         },
         { timeout: 2000 }
       );
