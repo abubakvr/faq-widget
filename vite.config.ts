@@ -24,12 +24,19 @@ export default defineConfig({
           "react/jsx-runtime": "react/jsx-runtime",
         },
         exports: "named",
-        assetFileNames: "style.css",
+        assetFileNames: (assetInfo) => {
+          // Only include CSS, exclude other assets like SVG files
+          if (assetInfo.name?.endsWith(".css")) {
+            return "style.css";
+          }
+          // Exclude other assets (like vite.svg) from dist
+          return "[name][extname]";
+        },
       },
       plugins: [
         {
           name: "auto-inject-css",
-          generateBundle(options, bundle) {
+          generateBundle(_, bundle) {
             // After CSS is generated, read it and inject into JS bundle
             const cssFileName = Object.keys(bundle).find((f) =>
               f.endsWith(".css")
@@ -55,6 +62,18 @@ export default defineConfig({
                 }
               });
             }
+          },
+        },
+        {
+          name: "exclude-assets",
+          generateBundle(_, bundle) {
+            // Remove vite.svg and other unnecessary assets from bundle
+            Object.keys(bundle).forEach((key) => {
+              // Exclude SVG files (except if needed, but we don't need any)
+              if (key.endsWith(".svg") || key.includes("vite.svg")) {
+                delete bundle[key];
+              }
+            });
           },
         },
       ],

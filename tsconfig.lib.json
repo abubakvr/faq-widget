@@ -15,7 +15,7 @@
     "jsx": "react-jsx",
     "strict": true,
     "declaration": true,
-    "declarationMap": true,
+    "declarationMap": false, // Disable declaration maps to reduce size
     "emitDeclarationOnly": true,
     "outDir": "./dist"
   },

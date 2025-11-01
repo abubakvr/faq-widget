@@ -1,4 +1,4 @@
-import { Widget } from "faq-chatbot";
+import { Widget } from "../dist/index";
 
 function App() {
   return (
