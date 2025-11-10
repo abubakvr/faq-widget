@@ -1,6 +1,6 @@
 {
   "name": "faq-chatbot",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "type": "module",
   "description": "SDK widget component for FAQ Agent chatbot",
   "main": "./dist/index.cjs",

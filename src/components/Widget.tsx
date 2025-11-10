@@ -45,7 +45,7 @@ const getTailwindColorClass = (
   const [colorName, shade, opacity] = color.split(/[-/]/);
   if (shade && !isNaN(Number(shade))) {
     const opacityClass = opacity ? `/${opacity}` : "";
-    return `${type}-${colorName}-${shade}${opacityClass}`;
+    return `fag-${type}-${colorName}-${shade}${opacityClass}`;
   }
 
   return defaultClass;
@@ -58,10 +58,10 @@ const getTextSizeClass = (
   size: "sm" | "base" | "lg" | "xl" | undefined
 ): string => {
   const sizeMap = {
-    sm: "text-sm",
-    base: "text-base",
-    lg: "text-lg",
-    xl: "text-xl",
+    sm: "fag-text-sm",
+    base: "fag-text-base",
+    lg: "fag-text-lg",
+    xl: "fag-text-xl",
   };
   return sizeMap[size || "base"];
 };
@@ -124,22 +124,22 @@ export const Widget: React.FC<WidgetProps> = ({
   // Get color classes
   const primaryBgClass = getTailwindColorClass(
     primaryColor,
-    "bg-blue-600",
+    "fag-bg-blue-600",
     "bg"
   );
   const primaryBgHoverClass = getTailwindColorClass(
     secondaryColor,
-    "hover:bg-blue-700",
+    "fag-hover:bg-blue-700",
     "hover"
   );
   const primaryTextClass = getTailwindColorClass(
     primaryColor,
-    "text-blue-600",
+    "fag-text-blue-600",
     "text"
   );
   const secondaryBgClass = getTailwindColorClass(
     secondaryColor,
-    "bg-blue-700",
+    "fag-bg-blue-700",
     "bg"
   );
   const textSizeClass = getTextSizeClass(textSize);
@@ -353,11 +353,11 @@ export const Widget: React.FC<WidgetProps> = ({
   };
 
   return (
-    <>
+    <div className="fag-widget-container">
       {/* Floating Chat Button */}
       <button
         onClick={toggleModal}
-        className={`fixed bottom-6 right-6 text-white px-6 py-4 rounded-full shadow-lg hover:shadow-xl transition-all duration-200 flex items-center space-x-2 z-50 ${textSizeClass} font-medium ${
+        className={`fag-fixed fag-bottom-6 fag-right-6 fag-text-white fag-px-6 fag-py-4 fag-rounded-full fag-shadow-lg fag-hover:shadow-xl fag-transition-all fag-duration-200 fag-flex fag-items-center fag-space-x-2 fag-z-50 ${textSizeClass} fag-font-medium ${
           primaryColor?.startsWith("#")
             ? ""
             : `${primaryBgClass} ${primaryBgHoverClass}`
@@ -388,7 +388,7 @@ export const Widget: React.FC<WidgetProps> = ({
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          className="h-5 w-5"
+          className="fag-h-5 fag-w-5"
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"
@@ -408,23 +408,23 @@ export const Widget: React.FC<WidgetProps> = ({
         <>
           {/* Backdrop */}
           <div
-            className={`fixed inset-0 bg-black bg-opacity-50 z-40 transition-opacity duration-200 ${
-              isAnimating ? "opacity-0" : "opacity-100"
+            className={`fag-fixed fag-inset-0 fag-bg-black fag-bg-opacity-50 fag-z-40 fag-transition-opacity fag-duration-200 ${
+              isAnimating ? "fag-opacity-0" : "fag-opacity-100"
             }`}
             onClick={toggleModal}
           />
           {/* Modal Content - Positioned above chat button */}
           <div
-            className={`fixed bottom-28 right-6 z-50 flex flex-col bg-white rounded-2xl shadow-2xl overflow-hidden w-[calc(100%-3rem)] sm:w-full max-w-lg h-[600px] sm:h-[700px] transition-all duration-300 ease-out ${
+            className={`fag-fixed fag-bottom-28 fag-right-6 fag-z-50 fag-flex fag-flex-col fag-bg-white fag-rounded-2xl fag-shadow-2xl fag-overflow-hidden fag-w-[calc(100%-3rem)] fag-sm:w-full fag-max-w-lg fag-h-[600px] fag-sm:h-[700px] fag-transition-all fag-duration-300 fag-ease-out ${
               isAnimating
-                ? "opacity-0 translate-y-4 scale-95"
-                : "opacity-100 translate-y-0 scale-100"
+                ? "fag-opacity-0 fag-translate-y-4 fag-scale-95"
+                : "fag-opacity-100 fag-translate-y-0 fag-scale-100"
             } ${className}`}
             style={{ ...primaryColorStyle, ...secondaryColorStyle }}
           >
             {/* Header */}
             <div
-              className={`text-white p-4 flex items-center justify-between ${
+              className={`fag-text-white fag-p-4 fag-flex fag-items-center fag-justify-between ${
                 primaryColor?.startsWith("#") ? "" : primaryBgClass
               }`}
               style={
@@ -434,18 +434,18 @@ export const Widget: React.FC<WidgetProps> = ({
               }
             >
               <div>
-                <h2 className={`${textSizeClass} font-bold`}>{title}</h2>
-                <p className="text-xs opacity-90">{subtitle}</p>
+                <h2 className={`${textSizeClass} fag-font-bold`}>{title}</h2>
+                <p className="fag-text-xs fag-opacity-90">{subtitle}</p>
               </div>
-              <div className="flex items-center space-x-2">
+              <div className="fag-flex fag-items-center fag-space-x-2">
                 <button
                   onClick={handleClearChat}
-                  className="text-white hover:opacity-80 transition-opacity"
+                  className="fag-text-white fag-hover:opacity-80 fag-transition-opacity"
                   title="Clear chat"
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    className="h-5 w-5"
+                    className="fag-h-5 fag-w-5"
                     viewBox="0 0 20 20"
                     fill="currentColor"
                   >
@@ -458,12 +458,12 @@ export const Widget: React.FC<WidgetProps> = ({
                 </button>
                 <button
                   onClick={toggleModal}
-                  className="text-white hover:opacity-80 transition-opacity"
+                  className="fag-text-white fag-hover:opacity-80 fag-transition-opacity"
                   title="Close chat"
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    className="h-6 w-6"
+                    className="fag-h-6 fag-w-6"
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
@@ -481,12 +481,12 @@ export const Widget: React.FC<WidgetProps> = ({
 
             {/* Messages Container */}
             <div
-              className={`flex-1 overflow-y-auto p-4 space-y-4 bg-gray-50 ${textSizeClass}`}
+              className={`fag-flex-1 fag-overflow-y-auto fag-p-4 fag-space-y-4 fag-bg-gray-50 ${textSizeClass}`}
             >
               {messages.length === 0 && (
-                <div className="text-center text-gray-500 mt-8">
+                <div className="fag-text-center fag-text-gray-500 fag-mt-8">
                   <svg
-                    className="mx-auto h-12 w-12 text-gray-400 mb-4"
+                    className="fag-mx-auto fag-h-12 fag-w-12 fag-text-gray-400 fag-mb-4"
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
@@ -516,16 +516,16 @@ export const Widget: React.FC<WidgetProps> = ({
               ))}
 
               {isLoading && (
-                <div className="flex justify-start">
-                  <div className="bg-white rounded-lg px-4 py-2 shadow-sm border border-gray-200">
-                    <div className="flex space-x-2">
-                      <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
+                <div className="fag-flex fag-justify-start">
+                  <div className="fag-bg-white fag-rounded-lg fag-px-4 fag-py-2 fag-shadow-sm fag-border fag-border-gray-200">
+                    <div className="fag-flex fag-space-x-2">
+                      <div className="fag-w-2 fag-h-2 fag-bg-gray-400 fag-rounded-full fag-animate-bounce"></div>
                       <div
-                        className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"
+                        className="fag-w-2 fag-h-2 fag-bg-gray-400 fag-rounded-full fag-animate-bounce"
                         style={{ animationDelay: "0.1s" }}
                       ></div>
                       <div
-                        className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"
+                        className="fag-w-2 fag-h-2 fag-bg-gray-400 fag-rounded-full fag-animate-bounce"
                         style={{ animationDelay: "0.2s" }}
                       ></div>
                     </div>
@@ -538,8 +538,8 @@ export const Widget: React.FC<WidgetProps> = ({
 
             {/* Error Message */}
             {error && !isLoading && (
-              <div className="px-4 py-2 bg-red-50 border-t border-red-200">
-                <p className={`text-sm text-red-600 ${textSizeClass}`}>
+              <div className="fag-px-4 fag-py-2 fag-bg-red-50 fag-border-t fag-border-red-200">
+                <p className={`fag-text-sm fag-text-red-600 ${textSizeClass}`}>
                   {error}
                 </p>
               </div>
@@ -548,9 +548,9 @@ export const Widget: React.FC<WidgetProps> = ({
             {/* Input Form */}
             <form
               onSubmit={handleSubmit}
-              className="p-4 bg-white border-t border-gray-200"
+              className="fag-p-4 fag-bg-white fag-border-t fag-border-gray-200"
             >
-              <div className="flex space-x-2">
+              <div className="fag-flex fag-space-x-2">
                 <input
                   ref={inputRef}
                   type="text"
@@ -558,12 +558,12 @@ export const Widget: React.FC<WidgetProps> = ({
                   onChange={(e) => setInputValue(e.target.value)}
                   placeholder={inputPlaceholder}
                   disabled={isLoading}
-                  className={`flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:bg-gray-100 disabled:cursor-not-allowed ${textSizeClass}`}
+                  className={`fag-flex-1 fag-px-4 fag-py-2 fag-border fag-border-gray-300 fag-rounded-lg fag-focus:outline-none fag-focus:ring-2 fag-focus:ring-blue-500 fag-focus:border-transparent fag-disabled:bg-gray-100 fag-disabled:cursor-not-allowed ${textSizeClass}`}
                 />
                 <button
                   type="submit"
                   disabled={!inputValue.trim() || isLoading}
-                  className={`p-2 text-white rounded-lg transition-colors disabled:bg-gray-300 disabled:cursor-not-allowed flex items-center justify-center ${
+                  className={`fag-p-2 fag-text-white fag-rounded-lg fag-transition-colors fag-disabled:bg-gray-300 fag-disabled:cursor-not-allowed fag-flex fag-items-center fag-justify-center ${
                     primaryColor?.startsWith("#")
                       ? ""
                       : `${primaryBgClass} ${primaryBgHoverClass}`
@@ -598,7 +598,7 @@ export const Widget: React.FC<WidgetProps> = ({
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    className="h-5 w-5"
+                    className="fag-h-5 fag-w-5"
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
@@ -616,7 +616,7 @@ export const Widget: React.FC<WidgetProps> = ({
           </div>
         </>
       )}
-    </>
+    </div>
   );
 };
 

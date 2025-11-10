@@ -1,3 +1,94 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Widget container isolation - prevents style leakage */
+.fag-widget-container {
+  /* Reset box-sizing */
+  box-sizing: border-box;
+  
+  /* Set base font properties */
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  
+  /* Don't create positioning context - let fixed children position relative to viewport */
+  position: static;
+  display: block;
+  width: 0;
+  height: 0;
+  overflow: visible;
+  
+  /* Reset common properties that might leak */
+  margin: 0;
+  padding: 0;
+  border: none;
+  outline: none;
+  text-decoration: none;
+  list-style: none;
+  
+  /* Prevent text selection issues */
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Ensure all child elements inherit proper box-sizing */
+.fag-widget-container *,
+.fag-widget-container *::before,
+.fag-widget-container *::after {
+  box-sizing: border-box;
+}
+
+/* Prevent parent CSS from affecting widget form elements */
+.fag-widget-container button,
+.fag-widget-container input,
+.fag-widget-container textarea,
+.fag-widget-container select {
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+  margin: 0;
+  padding: 0;
+}
+
+/* Reset button styles to prevent parent interference */
+.fag-widget-container button {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  text-align: inherit;
+}
+
+/* Reset input styles to prevent parent interference */
+.fag-widget-container input {
+  background: transparent;
+  border: none;
+  outline: none;
+}
+
+/* Prevent parent link styles from affecting widget */
+.fag-widget-container a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* Prevent parent list styles from affecting widget */
+.fag-widget-container ul,
+.fag-widget-container ol {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* Ensure fixed positioned children work correctly and are visible */
+.fag-widget-container > [class*="fag-fixed"],
+.fag-widget-container button[class*="fag-fixed"],
+.fag-widget-container div[class*="fag-fixed"] {
+  position: fixed !important;
+}
+
+/* Ensure high z-index for widget elements */
+.fag-widget-container [class*="fag-z-"] {
+  z-index: 10000 !important;
+}

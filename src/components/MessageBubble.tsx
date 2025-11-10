@@ -56,17 +56,17 @@ export const MessageBubble: React.FC<MessageBubbleProps> = ({
 
   return (
     <div
-      className={`flex ${
-        message.type === "user" ? "justify-end" : "justify-start"
+      className={`fag-flex ${
+        message.type === "user" ? "fag-justify-end" : "fag-justify-start"
       }`}
     >
       <div
-        className={`max-w-[80%] rounded-lg px-4 py-2 ${
+        className={`fag-max-w-[80%] fag-rounded-lg fag-px-4 fag-py-2 ${
           message.type === "user"
-            ? `text-white ${
+            ? `fag-text-white ${
                 primaryColor?.startsWith("#") ? "" : primaryBgClass
               }`
-            : "bg-white text-gray-800 shadow-sm border border-gray-200"
+            : "fag-bg-white fag-text-gray-800 fag-shadow-sm fag-border fag-border-gray-200"
         }`}
         style={
           message.type === "user" && primaryColor?.startsWith("#")
@@ -74,17 +74,17 @@ export const MessageBubble: React.FC<MessageBubbleProps> = ({
             : {}
         }
       >
-        <div className="whitespace-pre-wrap break-words">
+        <div className="fag-whitespace-pre-wrap fag-break-words">
           {answerText}
           {hasFollowUp && followUpText && (
             <>
               {"\n\n"}
               <button
                 onClick={() => onFollowUpClick?.(followUpText)}
-                className={`mt-2 text-left p-2 rounded-lg transition-colors font-medium ${textSizeClass} ${
+                className={`fag-mt-2 fag-text-left fag-p-2 fag-rounded-lg fag-transition-colors fag-font-medium ${textSizeClass} ${
                   primaryColor?.startsWith("#")
                     ? ""
-                    : `${primaryBgClass} hover:opacity-90`
+                    : `${primaryBgClass} fag-hover:opacity-90`
                 }`}
                 style={
                   primaryColor?.startsWith("#")
@@ -102,7 +102,7 @@ export const MessageBubble: React.FC<MessageBubbleProps> = ({
           {!hasFollowUp && (
             <>
               {isTyping && (
-                <span className="inline-block w-2 h-4 ml-1 bg-current animate-pulse">
+                <span className="fag-inline-block fag-w-2 fag-h-4 fag-ml-1 fag-bg-current fag-animate-pulse">
                   |
                 </span>
               )}
@@ -110,8 +110,8 @@ export const MessageBubble: React.FC<MessageBubbleProps> = ({
           )}
         </div>
         <p
-          className={`text-xs mt-1 ${
-            message.type === "user" ? "opacity-80" : "text-gray-500"
+          className={`fag-text-xs fag-mt-1 ${
+            message.type === "user" ? "fag-opacity-80" : "fag-text-gray-500"
           }`}
         >
           {message.timestamp.toLocaleTimeString([], {
